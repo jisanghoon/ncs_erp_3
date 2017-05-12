@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dgit.ncs.mappers.DepartmentMapper">
+	 <resultMap type="Department" id="departmentResult">
+		<id property="dcode" column="dcode" />
+		<result property="dname" column="dname" />
+		<result property="floor" column="floor" />
+	</resultMap>
+	
+	<select id="selectAll" resultType="Department">
+		
+		SELECT 
+			* 
+		FROM 
+			department 
+		order by 
+			dcode
+			
+	</select> 
+	
+	
+	<select id="selectByNo" parameterType="int" resultType="Department">
+	
+		SELECT 
+			*
+		FROM 
+			department
+		WHERE
+			dcode=#{dcode}
+			
+	</select>
+
+
+	<delete id="delete" parameterType="int">
+	
+		DELETE
+		FROM 
+			department
+		WHERE 
+			dcode=#{dcode}
+			
+	</delete>
+	
+	
+	<insert id="insert" parameterType="Department">
+	
+		INSERT INTO
+			department(dcode, dname, floor)
+		VALUES
+			(#{dcode}, #{dname}, #{floor})
+			
+	</insert>
+	
+	
+	<update id="update" parameterType="Department">
+	
+		UPDATE 
+			department
+		SET 
+			dname=#{dname}, floor=#{floor}
+		WHERE
+			dcode=#{dcode}
+			
+	</update>
+
+</mapper>

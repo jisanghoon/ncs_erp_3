@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dgit.ncs.mappers.EmployeeMapper">
+	 
+	<resultMap type="Employee" id="EmployeeResult">
+		<id property="eno" column="eno" />
+		<result property="ename" column="ename" />
+		<result property="salary" column="salary" />
+		<result property="gender" column="gender" />
+		<result property="joindate" column="joindate" />
+		<association property="department"	resultMap="com.dgit.ncs.mappers.DepartmentMapper.departmentResult" />
+		<association property="title"	resultMap="com.dgit.ncs.mappers.TitleMapper.titleResult" />
+	</resultMap>
+
+	
+	
+	 <select id="selectAll" resultMap="EmployeeResult">
+	
+		SELECT 
+			E.*,T.*,D.*
+		FROM 
+			employee E 
+			LEFT JOIN title T ON  E.title=T.tcode 
+			LEFT JOIN department D ON  E.dno=D.dcode 			 
+		ORDER BY 
+			eno
+			
+	</select> 
+	
+	
+	<select id="selectByNo" parameterType="int" resultMap="EmployeeResult">
+	
+		
+		SELECT 
+			E.*,T.*,D.*
+		FROM 
+			employee E 
+			LEFT JOIN title T ON  E.title=T.tcode 
+			LEFT JOIN department D ON  E.dno=D.dcode 
+		WHERE
+			E.eno=#{eno}
+			
+	</select>
+
+
+	<delete id="delete" parameterType="int">
+	
+		DELETE
+		FROM 
+			employee
+		WHERE 
+			eno=#{eno}
+			
+	</delete>
+	
+
+  	<insert id="insert"  parameterType="Employee" >
+	
+		INSERT INTO
+			employee( ename, salary, dno, gender, joindate, title )
+		VALUES
+			( #{ename}, #{salary}, #{department.dcode}, #{gender}, #{joindate}, #{title.tcode} )
+			
+	</insert>  
+	
+	
+	 <update id="update" parameterType="Employee">
+	
+		UPDATE 
+			employee
+		SET 
+			ename=#{ename}, salary=#{salary}, 
+			dno=#{department.dcode}, gender=#{gender}, 
+			joindate=#{joindate}, title=#{title.tcode}
+		WHERE
+			eno=#{eno}
+			
+	</update>  
+
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dgit.ncs.mappers.TitleMapper">
+	
+	<resultMap type="Title" id="titleResult">
+		<id property="tcode" column="tcode" />
+		<result property="tname" column="tname" />
+	</resultMap>
+	
+	<select id="selectAll" resultType="Title">
+	
+		SELECT 
+			*
+		FROM 
+			title
+		order by 
+			tcode
+			
+	</select>
+	
+	
+	<select id="selectByNo" parameterType="int" resultType="Title">
+	
+		SELECT 
+			*
+		FROM 
+			title
+		WHERE
+			tcode=#{tcode}
+			
+	</select>
+
+
+	<delete id="delete" parameterType="int">
+	
+		DELETE
+		FROM 
+			title
+		WHERE 
+			tcode=#{tcode}
+			
+	</delete>
+	
+	
+	<insert id="insert" parameterType="Title">
+	
+		INSERT INTO
+			title( tcode, tname )
+		VALUES
+			( #{tcode}, #{tname} )
+			
+	</insert>
+	
+	
+	<update id="update" parameterType="Title">
+	
+		UPDATE 
+			title
+		SET 
+			tname=#{tname}
+		WHERE
+			tcode=#{tcode}
+			
+	</update>
+
+</mapper>
