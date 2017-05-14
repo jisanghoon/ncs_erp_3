@@ -13,5 +13,4 @@ public interface DepartmentMapper<T> {
 
 	T selectByNo(int idx);
 
-	T selectLast();
 }

@@ -13,6 +13,5 @@ public interface EmployeeMapper<T> {
 	List<T> selectAll();
 
 	T selectByNo(int idx);
-	
-	T selectLast();
+
 }

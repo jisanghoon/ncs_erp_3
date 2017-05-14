@@ -89,16 +89,4 @@ public class DepartmentService implements DepartmentMapper<Department> {
 		}
 	}
 
-	@Override
-	public Department selectLast() {
-		SqlSession sqlSession = MybatisSessionFactory.openSession();
-		DepartmentMapper dDao = sqlSession.getMapper(DepartmentMapper.class);
-		try {
-			Department deparment = (Department) dDao.selectLast();
-			return deparment;
-		} finally {
-			sqlSession.close();
-		}
-	}
-
 }

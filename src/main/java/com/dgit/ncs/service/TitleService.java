@@ -90,16 +90,4 @@ public class TitleService implements TitleMapper<Title> {
 		}
 	}
 
-	@Override
-	public Title selectLast() {
-		SqlSession sqlSession = MybatisSessionFactory.openSession();
-		TitleMapper titleDao = sqlSession.getMapper(TitleMapper.class);
-		try {
-			Title title = (Title) titleDao.selectLast();
-			return title;
-		} finally {
-			sqlSession.close();
-		}
-	}
-
 }

@@ -228,7 +228,7 @@ public class MEmpPanel extends JPanel implements ActionListener {
 	private void setDefaultData() {
 		txtName.setText("");
 		btnAdd.setText("추가");
-		
+
 		SpinnerModel spinnerModel = new SpinnerNumberModel(1500000, 1000000, 5000000, 100000);
 		spinSalary.setModel(spinnerModel);
 
@@ -250,8 +250,7 @@ public class MEmpPanel extends JPanel implements ActionListener {
 			txtNum.setText(String.format("E%s%03d", dateStr.substring(1, 4), 1));
 		} else {
 			String tmpValue = (String) tbl.getValueAt(tbl.getRowCount() - 1, 0);
-			txtNum.setText(
-					String.format("E%s%03d", tmpValue.substring(1, 4), Integer.parseInt(tmpValue.substring(5)) + 1));
+			txtNum.setText(String.format("E%s%03d", tmpValue.substring(1, 4), Integer.parseInt(tmpValue.substring(5)) + 1));
 		}
 	}
 
@@ -271,7 +270,9 @@ public class MEmpPanel extends JPanel implements ActionListener {
 			data[idx][3] = String.format("%,d", employee.getSalary());
 			data[idx][4] = (employee.getGender() == 0 ? "남" : "여");
 			data[idx][5] = employee.getDepartment().getDname() + "(" + employee.getDepartment().getFloor() + "층)";
-			data[idx][6] = dFormat.format(employee.getJoindate());
+			if (employee.getJoindate() != null) {
+				data[idx][6] = dFormat.format(employee.getJoindate());
+			}
 			idx++;
 		}
 
@@ -293,7 +294,7 @@ public class MEmpPanel extends JPanel implements ActionListener {
 	}
 
 	private void setCmbDepDataLoad() {
-
+		comboDep.removeAllItems();
 		List<Department> list = DepartmentService.getInstance().selectAll();
 
 		for (Department department : list) {
@@ -304,6 +305,7 @@ public class MEmpPanel extends JPanel implements ActionListener {
 	}
 
 	private void setCmbTitleDataLoad() {
+		comboTitle.removeAllItems();
 		List<Title> list = TitleService.getInstance().selectAll();
 
 		for (Title title : list) {
@@ -367,13 +369,8 @@ public class MEmpPanel extends JPanel implements ActionListener {
 		// TODO Auto-generated method stub
 		String value = (String) tbl.getValueAt(tbl.getSelectedRow(), 0);
 
-		int result =
-				JOptionPane.showConfirmDialog(
-						null,
-						"정말 삭제하시겠습니까?",
-						"삭제 확인",
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.WARNING_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(null, "정말 삭제하시겠습니까?", "삭제 확인", JOptionPane.YES_NO_OPTION,
+				JOptionPane.WARNING_MESSAGE);
 
 		if (result == JOptionPane.YES_OPTION) {
 			EmployeeService.getInstance().delete(Integer.parseInt(value.substring(1)));
@@ -404,13 +401,8 @@ public class MEmpPanel extends JPanel implements ActionListener {
 			if (btnAdd.getText().equals("추가")) {
 				EmployeeService.getInstance().insert(employee);
 			} else {
-				int result =
-						JOptionPane.showConfirmDialog(
-								null,
-								"정말 수정하시겠습니까?",
-								"수정 확인",
-								JOptionPane.YES_NO_OPTION,
-								JOptionPane.WARNING_MESSAGE);
+				int result = JOptionPane.showConfirmDialog(null, "정말 수정하시겠습니까?", "수정 확인", JOptionPane.YES_NO_OPTION,
+						JOptionPane.WARNING_MESSAGE);
 
 				if (result == JOptionPane.YES_OPTION) {
 					EmployeeService.getInstance().update(employee);

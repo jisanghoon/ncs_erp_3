@@ -18,6 +18,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -135,7 +136,9 @@ public class MDepPanel extends JPanel implements ActionListener {
 				}
 			}
 		});
-
+		tbl.getTableHeader().setReorderingAllowed(false); // 이동 불가
+		tbl.getTableHeader().setResizingAllowed(false); // 크기 조절 불가
+		tbl.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPane = new JScrollPane(tbl);
 		panel_5.add(scrollPane);
 
@@ -211,10 +214,8 @@ public class MDepPanel extends JPanel implements ActionListener {
 			dep.setDname(txtDName.getText());
 			dep.setFloor(Integer.parseInt(txtFloor.getText()));
 
-			if (btnAdd.getText().equals("추가"))
-				DepartmentService.getInstance().insert(dep);
-			else
-				DepartmentService.getInstance().update(dep);
+			if (btnAdd.getText().equals("추가")) DepartmentService.getInstance().insert(dep);
+			else DepartmentService.getInstance().update(dep);
 
 			btnAdd.setText("추가");
 			setDefaultData();
@@ -244,13 +245,8 @@ public class MDepPanel extends JPanel implements ActionListener {
 	private void actionPerformedMenuItemRemove(ActionEvent arg0) {
 
 		String value = (String) tbl.getValueAt(tbl.getSelectedRow(), 0);
-		int result =
-				JOptionPane.showConfirmDialog(
-						null,
-						"정말 삭제하시겠습니까?",
-						"삭제 확인",
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.WARNING_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(null, "정말 삭제하시겠습니까?", "삭제 확인", JOptionPane.YES_NO_OPTION,
+				JOptionPane.WARNING_MESSAGE);
 
 		if (result == JOptionPane.YES_OPTION) {
 			try {

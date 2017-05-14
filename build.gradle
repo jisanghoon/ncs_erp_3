@@ -2,18 +2,33 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'application'
 
+mainClassName = 'com.dgit.ncs.ERP_Application'
 sourceCompatibility = 1.8
+version = '1.0'
+
 //인코딩 지정
 tasks.withType(JavaCompile) {
-options.encoding = 'UTF-8'
+	options.encoding = 'UTF-8'
 }
-version = '1.0'
+
 jar {
     manifest {
-        attributes 'Implementation-Title': 'ncs_erp_jsh',
-                   'Implementation-Version': version
+        attributes  'Implementation-Title': 'ERP_Application',
+                    'Implementation-Version': version, 
+        			'Main-Class': mainClassName
+    }
+    archiveName 'ERP_Application.jar'
+    dependsOn configurations.runtime
+    from {
+        configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
     }
 }
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.10'
+}
+
 
 repositories {
     mavenCentral()

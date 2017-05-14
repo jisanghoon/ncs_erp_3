@@ -6,9 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 
 import com.dgit.ncs.dto.Employee;
-import com.dgit.ncs.dto.Title;
 import com.dgit.ncs.mappers.EmployeeMapper;
-import com.dgit.ncs.mappers.TitleMapper;
 import com.dgit.ncs.setting.MybatisSessionFactory;
 
 public class EmployeeService implements EmployeeMapper<Employee> {
@@ -33,7 +31,7 @@ public class EmployeeService implements EmployeeMapper<Employee> {
 			employeeDao.insert(item);
 			sqlSession.commit();
 		} finally {
-			
+
 			sqlSession.close();
 		}
 	}
@@ -88,15 +86,4 @@ public class EmployeeService implements EmployeeMapper<Employee> {
 		}
 	}
 
-	@Override
-	public Employee selectLast() {
-		SqlSession sqlSession = MybatisSessionFactory.openSession();
-		EmployeeMapper employeeDao = sqlSession.getMapper(EmployeeMapper.class);
-		try {
-			Employee employee = (Employee) employeeDao.selectLast();
-			return employee;
-		} finally {
-			sqlSession.close();
-		}
-	}
 }

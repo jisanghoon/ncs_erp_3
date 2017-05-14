@@ -13,5 +13,4 @@ public interface TitleMapper<T> {
 
 	T selectByNo(int idx);
 
-	T selectLast();
 }

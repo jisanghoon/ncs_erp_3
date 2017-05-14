@@ -4,16 +4,15 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class ERP_Application extends JFrame implements ActionListener {
@@ -22,7 +21,9 @@ public class ERP_Application extends JFrame implements ActionListener {
 	private JButton btnMEmp;
 	private JButton btnMDep;
 	private JButton btnMTitle;
-	private static boolean openSub;
+	private boolean openSubEmp;
+	private boolean openSubTitle;
+	private boolean openSubDep;
 
 	/**
 	 * Launch the application.
@@ -44,7 +45,11 @@ public class ERP_Application extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public ERP_Application() {
-		openSub = false;
+
+		openSubEmp = false;
+		openSubTitle = false;
+		openSubDep = false;
+
 		setTitle("DB관리메뉴");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 425, 99);
@@ -71,43 +76,64 @@ public class ERP_Application extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		if (openSub)
-			return;
 
-		JFrame subFrame = new JFrame();
-		subFrame.addWindowListener(new WindowAdapter() {
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-				super.windowClosed(e);
-				openSub = false;
-			}
-
-		});
+		JFrame subFrame = null;
 
 		if (arg0.getSource() == btnMTitle) {
+			if (openSubTitle) return;
+			subFrame = new JFrame();
 			actionPerformedBtnMTitle(arg0, subFrame);
+			subFrame.addWindowListener(new WindowAdapter() {
+
+				@Override
+				public void windowClosing(WindowEvent e) {
+					super.windowClosed(e);
+					openSubTitle = false;
+				}
+
+			});
 		}
 		if (arg0.getSource() == btnMDep) {
+			if (openSubDep) return;
+			subFrame = new JFrame();
 			actionPerformedBtnMDep(arg0, subFrame);
+			subFrame.addWindowListener(new WindowAdapter() {
+
+				@Override
+				public void windowClosing(WindowEvent e) {
+					super.windowClosed(e);
+					openSubDep = false;
+				}
+
+			});
 		}
 		if (arg0.getSource() == btnMEmp) {
+			if (openSubEmp) return;
+			subFrame = new JFrame();
 			actionPerformedBtnMEmp(arg0, subFrame);
+			subFrame.addWindowListener(new WindowAdapter() {
+
+				@Override
+				public void windowClosing(WindowEvent e) {
+					super.windowClosed(e);
+					openSubEmp = false;
+				}
+
+			});
 		}
 
 		setFrameRelocation(subFrame);
 		subFrame.setResizable(false);
 		subFrame.setVisible(true);
-		openSub = true;
 	}
 
 	protected void actionPerformedBtnMEmp(ActionEvent arg0, JFrame subFrame) {
-
 		subFrame.setTitle("사원관리");
 		subFrame.setSize(650, 600);
 
 		MEmpPanel mEmpPanel = new MEmpPanel();
 		subFrame.getContentPane().add(mEmpPanel);
+		openSubEmp = true;
 	}
 
 	protected void actionPerformedBtnMDep(ActionEvent arg0, JFrame subFrame) {
@@ -116,6 +142,7 @@ public class ERP_Application extends JFrame implements ActionListener {
 
 		MDepPanel mDepPanel = new MDepPanel();
 		subFrame.getContentPane().add(mDepPanel);
+		openSubDep = true;
 	}
 
 	protected void actionPerformedBtnMTitle(ActionEvent arg0, JFrame subFrame) {
@@ -124,6 +151,7 @@ public class ERP_Application extends JFrame implements ActionListener {
 
 		MTitlePanel mTitlePanel = new MTitlePanel();
 		subFrame.getContentPane().add(mTitlePanel);
+		openSubTitle = true;
 	}
 
 	public void setFrameRelocation() {
@@ -133,8 +161,6 @@ public class ERP_Application extends JFrame implements ActionListener {
 
 	public void setFrameRelocation(JFrame frame) {
 		Dimension windowSize = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setLocation(
-				(windowSize.width - frame.getSize().width) / 2,
-				(windowSize.height - frame.getSize().height) / 2);
+		frame.setLocation((windowSize.width - frame.getSize().width) / 2, (windowSize.height - frame.getSize().height) / 2);
 	}
 }
